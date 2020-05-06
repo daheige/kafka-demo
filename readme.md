@@ -8,6 +8,11 @@
 
     https://github.com/segmentio/kafka-go
 
+# kafka-php
+
+    https://github.com/weiboad/kafka-php
+    php client代码参考 client/php
+
 # Kafka适合什么样的场景?
 
     它可以用于两大类别的应用:

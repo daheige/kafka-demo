@@ -93,7 +93,7 @@ func main() {
 
 	// 指定多个消费组模式，消费topic中的消息
 	go consumeGroupMsg("mytest-1")
-	go consumeGroupMsg("mytest-2")
+	//go consumeGroupMsg("mytest-2")
 
 	ch := make(chan os.Signal, 1)
 	// We'll accept graceful shutdowns when quit via SIGINT (Ctrl+C)
