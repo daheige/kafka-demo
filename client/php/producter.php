@@ -10,8 +10,10 @@ $logger = new Logger('my_logger');
 // Now add some handlers
 $logger->pushHandler(new StreamHandler('./test.log', Logger::WARNING));
 
+// test monolog
 $logger->error('aa',["aa"=>1,'b'=>'123']);
 
+// 同步发送消息
 $config = \Kafka\ProducerConfig::getInstance();
 $config->setMetadataRefreshIntervalMs(10000);
 $config->setMetadataBrokerList('192.168.0.11:9092');

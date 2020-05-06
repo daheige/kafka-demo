@@ -11,7 +11,7 @@ $logger = new Logger('my_logger');
 $logger->pushHandler(new StreamHandler('test.log', Logger::WARNING));
 
 /**
- * 移步发送消息模式
+ * 异步发送消息模式
  */
 $config = \Kafka\ProducerConfig::getInstance();
 $config->setMetadataRefreshIntervalMs(10000);
