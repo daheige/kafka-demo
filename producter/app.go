@@ -4,6 +4,9 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net"
+	"strconv"
+	"strings"
 	"time"
 
 	kafka "github.com/segmentio/kafka-go"
@@ -49,10 +52,43 @@ func getKafkaWriter(kafkaURLs []string, topic string) *kafka.Writer {
 func main() {
 	// get kafka writer using environment variables.
 	kafkaURLs := []string{
-		"192.168.0.11:9092",
+		"localhost:9092",
 	}
 
-	topic := "test"
+	topic := "my-topic"
+
+	// create topic
+	conn, err := kafka.Dial("tcp", strings.Join(kafkaURLs, ","))
+	if err != nil {
+		log.Fatalf("kafka connection error:%v", err)
+	}
+	defer conn.Close()
+
+	controller, err := conn.Controller()
+	if err != nil {
+		panic(err)
+	}
+
+	var controllerConn *kafka.Conn
+	controllerConn, err = kafka.Dial("tcp", net.JoinHostPort(controller.Host, strconv.Itoa(controller.Port)))
+	if err != nil {
+		panic(err)
+	}
+
+	defer controllerConn.Close()
+	topicConfigs := []kafka.TopicConfig{
+		{
+			Topic:             topic,
+			NumPartitions:     1,
+			ReplicationFactor: 1,
+		},
+	}
+
+	err = controllerConn.CreateTopics(topicConfigs...)
+	if err != nil {
+		panic(err)
+	}
+
 	kafkaWriter := getKafkaWriter(kafkaURLs, topic)
 
 	defer kafkaWriter.Close()

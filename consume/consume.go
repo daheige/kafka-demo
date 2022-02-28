@@ -81,10 +81,10 @@ func consumeGroupMsg(groupId string) {
 */
 var (
 	kafkaURLs = []string{
-		"192.168.0.11:9092",
+		"192.168.0.5:9092",
 	}
 
-	topic = "test"
+	topic = "my-topic"
 )
 
 func main() {
